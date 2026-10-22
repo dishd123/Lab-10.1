@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>First 10 Customers</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <h1>First 10 Customers</h1>
+
+  <p>
+    Customers from the
+    <strong>shoppingsite</strong> database and
+    <strong>customers</strong> collection.
+  </p>
+
+  <% if (customers.length === 0) { %>
+
+    <p>No customers were found.</p>
+
+  <% } else { %>
+
+    <table border="1" cellpadding="8" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Number</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% customers.forEach(function(customer, index) { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= customer.name %></td>
+            <td><%= customer.email %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+  <% } %>
+
+  <br>
+
+  <a href="/">Add another customer</a>
+</body>
+</html>

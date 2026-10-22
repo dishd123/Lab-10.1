@@ -4,7 +4,7 @@
       <env name="DEBUG" value="formdatasavemongodb:*" />
     </envs>
     <EXTENSION ID="com.jetbrains.nodejs.run.NodeStartBrowserRunConfigurationExtension">
-      <browser url="http://localhost:3000/" />
+      <browser url="http://localhost:z/" />
     </EXTENSION>
     <method v="2" />
   </configuration>

@@ -1,21 +1,61 @@
-# Simple NodeJS+Express (ejs) code to read in new customer data and add to a MongoDB colleciton
+# Lab 10.1: Customer Database Deployment
 
-This repository is a simple started code NodeJS+Express projet that has a / (index.js ->index.ejs view) which shows a simple form to gather data for a new customer
-Here is what it looks like
-![image](https://github.com/grewe/FormDataSaveMongoDB/assets/11790686/60014ccb-4dca-450b-83a0-495b3bc55152)
+This project is a Node.js/Express application that stores customer information in a MongoDB Atlas database. It uses the `shoppingsite` database and the `customers` collection.
 
+## Features
 
-After entering in data and hitting "Go" the /saveNewCustomer route (index.js) is invoked as a POST request, this invokes the controller code
-in controllers/database.js.   This will read in the POST form data of the customer's name and email and save this to a MongoDB Atlas database called
-"shippingsite" in a collection called "customers".   The results will be that a new document with this name and email is added to the customers
-collection.
-![image](https://github.com/grewe/FormDataSaveMongoDB/assets/11790686/8d6cec36-4422-4d32-9856-b0398eb4fd80)
+- Submit a customer name and email through a web form.
+- Save the customer as a document in MongoDB.
+- Retrieve and display the first 10 customers from the `customers` collection.
 
-It will respond with a simple welcome to the new customer.
+## Requirements
 
-## IMPORTANT:  this is simple code  and it does not check if the customer email already exists --so it will stupidly create a new customer each
-time regardless if it is the same information.  THIS should obviously be hanged
-## IMPORTANT:  you will need to create your own databaseConnection.js file in the controllers directory that contains the following code
+- Node.js and npm
+- A MongoDB Atlas cluster
 
->module.exports = { uri: 'mongodb+srv://YOURLogin:YOURPassword@YOURClustername.WHATEVER.mongodb.net/?retryWrites=true&w=majority' };
+## Setup
 
+1. Install the dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Set your MongoDB Atlas connection string in the shell before starting the app. Keep the value in the local, ignored `mongodb-credentials.local.txt` file if needed:
+
+   ```bash
+   export MONGODB_URI='mongodb+srv://<username>:<password>@<cluster-host>/shoppingsite?retryWrites=true&w=majority'
+   ```
+
+   Do not commit real database credentials to a public repository.
+
+3. Make sure the Atlas user has permission to read and write to the database, and that your IP address is allowed in the cluster network access settings.
+
+## Run the application
+
+Start the server from the project directory:
+
+```bash
+npm start
+```
+
+Then open [http://localhost:3000](http://localhost:3000).
+
+- Use the form on the home page to add a customer.
+- Open [http://localhost:3000/customers](http://localhost:3000/customers) to display the first 10 customers.
+
+The `/customers` route queries the `shoppingsite.customers` collection, sorts documents by `_id`, and limits the result to 10 documents.
+
+## Lab evidence
+
+The application running and retrieving 10 customers:
+
+![Application retrieving the first 10 customers](images/retrieved_customers.png)
+
+Code running in VS Code with the server output showing that 10 customers were retrieved:
+
+![Code and server output](images/code_running.png)
+
+MongoDB Atlas showing the `shoppingsite.customers` collection with 11 documents:
+
+![MongoDB Atlas customers collection](images/mongodb_customer_list.png)

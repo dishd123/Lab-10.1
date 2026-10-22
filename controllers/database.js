@@ -9,10 +9,6 @@ var { uri } = require('./databaseConnection');
 //Define some varibles needed for the database Controller functions
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
-//connection string, fill it in with YOUR information for your MongoDB deployment
-//const uri = "mongodb+srv://grewe:jority";
-
-
 // SETP 1: Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
     serverApi: {
@@ -84,3 +80,40 @@ async function saveCustomerToMongoDB(name, email) {
     await client.close();
     }
 }
+
+/*
+ * Retrieve and display the first 10 customers from MongoDB.
+ */
+module.exports.showCustomers = async function(req, res, next) {
+    try {
+        await client.connect();
+
+        await client.db("admin").command({ ping: 1 });
+
+        console.log(
+            "Connected to MongoDB to retrieve customers."
+        );
+
+        var db0 = client.db("shoppingsite");
+        var customersCollection = db0.collection("customers");
+
+        var customers = await customersCollection
+            .find({})
+            .sort({ _id: 1 })
+            .limit(10)
+            .toArray();
+
+        console.log(
+            "Retrieved " + customers.length + " customers."
+        );
+
+        res.render("customers", {
+            customers: customers
+        });
+    } catch (error) {
+        console.error("Error retrieving customers:", error);
+        next(error);
+    } finally {
+        await client.close();
+    }
+};
